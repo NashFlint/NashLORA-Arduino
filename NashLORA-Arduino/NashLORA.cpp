@@ -164,9 +164,10 @@ void NashLORA::standby()
     writeRegister(REG_OP_MODE, MODE_STANDBY);
 }
 
-void NashLORA::setFreq(uint32_t freq) // take in freq in mhz
+void NashLORA::setFreq(uint32_t freqIn) // take in freq in Hz
 {
-    uint32_t frf = freq * 16384; // simplified conversion from datasheet
+    freq = freqIn;
+    uint32_t frf = freq * 0.016384; // simplified conversion from datasheet
 
     // write bytes by shifting and masking
     writeRegister(REG_FR_MSB, frf >> 16 & 0xff);
@@ -213,7 +214,6 @@ void NashLORA::send(uint8_t* buf, uint8_t len)
 
     //reset IRQ flag by writing 1 to bit in register
     writeRegister(REG_IRQ_FLAGS, IRQ_TX_DONE);
-
 }
 
 void NashLORA::receive()
@@ -284,4 +284,19 @@ void NashLORA::receivePacket(uint8_t* buf, uint8_t* len) // this function only r
         buf[i] = readRegister(REG_FIFO); 
     }
     receive();
+}
+
+int NashLORA::getPacketRSSI() // return RSSI of previous packet
+{
+    int rssi;
+    if (freq >= 525000000)
+    {
+        rssi = -157 + readRegister(REG_PACKET_RSSI);
+    }
+    else
+    {
+        rssi = -164 + readRegister(REG_PACKET_RSSI);
+    }
+
+    return rssi;
 }
