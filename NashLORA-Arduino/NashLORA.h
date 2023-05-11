@@ -22,6 +22,7 @@ class NashLORA
         void receive(); // set chip into receive mode
         int received(); // check to see if a packet has been received, 0 is no, 1 is yes, 2 is yes with crc error
         void receivePacket(uint8_t* buf, uint8_t* len); // receive packet
+        int getPacketRSSI(); // returns rssi of last packet received
 
         void setPower(uint8_t power); // set transmit power in dBm
         void enableCRC(bool en);
@@ -32,6 +33,8 @@ class NashLORA
     
         void writeRegister(uint8_t reg, uint8_t val); // write value to register
         uint8_t readRegister(uint8_t reg); // read value from register
+
+        uint32_t freq = 434000000;
 
         SPISettings spiSettings;
         SPIClass* spi;
