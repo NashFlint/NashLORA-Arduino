@@ -64,9 +64,7 @@
 #define DEFAULT_SPI SPI
 #define DEFAULT_SPI_FREQ 8000000
 
-static const char *TAG = "LORA_DEBUG";
-
-NashLORA::NashLORA(gpio_num_t cs, gpio_num_t rst)
+NashLORA::NashLORA(uint8_t cs, uint8_t rst)
 {
     csPin = cs;
     rstPin = rst;

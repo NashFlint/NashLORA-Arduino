@@ -6,17 +6,12 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "driver/gpio.h"
-#include "driver/spi_master.h"
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "esp_system.h"
-#include "esp_log.h"
+#include <SPI.h>
 
 class NashLORA
 {
     public:
-    NashLORA(gpio_num_t cs, gpio_num_t rst);
+    NashLORA(uint8_t cs, uint8_t rst);
 
     // can add error handling to these to make them only work if inited, but im not a pussy
     bool init(); // init chip 
